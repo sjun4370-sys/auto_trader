@@ -1,3 +1,5 @@
+import api from './index'
+
 export interface AccountData {
   id: number;
   exchange: string;

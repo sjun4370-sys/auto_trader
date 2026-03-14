@@ -1,3 +1,5 @@
+import api from './index'
+
 export interface StrategyData {
   id: number;
   name: string;

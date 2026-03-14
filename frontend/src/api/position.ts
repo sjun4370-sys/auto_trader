@@ -1,3 +1,5 @@
+import api from './index'
+
 export interface PositionData {
   id: number;
   symbol: string;
