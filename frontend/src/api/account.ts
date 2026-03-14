@@ -1,0 +1,19 @@
+export interface AccountData {
+  id: number;
+  exchange: string;
+  account_name?: string;
+  api_key?: string;
+  api_secret?: string;
+  passphrase?: string;
+  is_testnet: boolean;
+  is_active: boolean;
+  created_at: string;
+}
+
+export const accountApi = {
+  list: () => api.get<AccountData[]>('/accounts'),
+  get: (id: number) => api.get<AccountData>(`/accounts/${id}`),
+  create: (data: Partial<AccountData>) => api.post('/accounts', data),
+  update: (id: number, data: Partial<AccountData>) => api.patch(`/accounts/${id}`, data),
+  delete: (id: number) => api.delete(`/accounts/${id}`),
+};
