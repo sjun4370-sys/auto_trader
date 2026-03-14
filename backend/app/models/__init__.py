@@ -46,6 +46,11 @@ class ExchangeAccount(Base):
     positions = relationship("Position", back_populates="account", cascade="all, delete-orphan")
     orders = relationship("Order", back_populates="account", cascade="all, delete-orphan")
 
+    @property
+    def has_api_credentials(self) -> bool:
+        """是否已配置可交易密钥"""
+        return bool((self.api_key or "").strip() and (self.api_secret or "").strip())
+
 
 class Position(Base):
     """持仓模型"""

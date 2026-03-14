@@ -1,16 +1,21 @@
-import { useState } from 'react'
-import { Card, Form, Input, Select, InputNumber, Button, message, Space } from 'antd'
+import { useEffect, useMemo, useState } from 'react'
+import { Card, Form, Input, Select, InputNumber, Button, message, Space, Alert } from 'antd'
 import { tradeApi } from '../api/trade'
-import { accountApi } from '../api/account'
+import { accountApi, AccountData } from '../api/account'
 
 function Trade() {
   const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
-  const [accounts, setAccounts] = useState<any[]>([])
+  const [accounts, setAccounts] = useState<AccountData[]>([])
 
-  useState(() => {
+  useEffect(() => {
     accountApi.list().then(res => setAccounts(res.data))
-  })
+  }, [])
+
+  const tradableAccounts = useMemo(
+    () => accounts.filter(a => a.is_active && a.has_api_credentials),
+    [accounts]
+  )
 
   const onFinish = async (values: any) => {
     setLoading(true)
@@ -29,10 +34,19 @@ function Trade() {
     <div>
       <h1>交易</h1>
       <Card title="下单">
+        {tradableAccounts.length === 0 && (
+          <Alert
+            type="warning"
+            showIcon
+            message="暂无可交易账户"
+            description="请先在账户管理中创建并启用已配置 API Key/API Secret 的账户。"
+            style={{ marginBottom: 16 }}
+          />
+        )}
         <Form form={form} layout="vertical" onFinish={onFinish}>
-          <Form.Item name="accountId" label="账户" rules={[{ required: true }]}>
-            <Select placeholder="选择账户">
-              {accounts.map(a => (
+          <Form.Item name="accountId" label="账户" rules={[{ required: true, message: '请选择可交易账户' }]}>
+            <Select placeholder="选择可交易账户">
+              {tradableAccounts.map(a => (
                 <Select.Option key={a.id} value={a.id}>
                   {a.account_name || a.exchange} ({a.is_testnet ? '模拟' : '实盘'})
                 </Select.Option>
@@ -62,7 +76,7 @@ function Trade() {
           </Form.Item>
           <Form.Item>
             <Space>
-              <Button type="primary" htmlType="submit" loading={loading}>
+              <Button type="primary" htmlType="submit" loading={loading} disabled={tradableAccounts.length === 0}>
                 下单
               </Button>
               <Button onClick={() => form.resetFields()}>重置</Button>

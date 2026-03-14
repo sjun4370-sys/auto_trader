@@ -9,6 +9,7 @@ export interface AccountData {
   passphrase?: string;
   is_testnet: boolean;
   is_active: boolean;
+  has_api_credentials: boolean;
   created_at: string;
 }
 
