@@ -105,6 +105,19 @@ async def update_account(
             detail="exchange cannot be null"
         )
 
+    for credential_field in ("api_key", "api_secret"):
+        if credential_field in update_data:
+            credential_value = update_data[credential_field]
+            if credential_value is None or not credential_value.strip():
+                raise HTTPException(
+                    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                    detail=f"{credential_field} 不能为空"
+                )
+            update_data[credential_field] = credential_value.strip()
+
+    if "passphrase" in update_data and isinstance(update_data["passphrase"], str):
+        update_data["passphrase"] = update_data["passphrase"].strip()
+
     for field, value in update_data.items():
         setattr(account, field, value)
 
