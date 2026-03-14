@@ -1,3 +1,5 @@
+import api from './index'
+
 export interface OrderData {
   id: number;
   symbol: string;

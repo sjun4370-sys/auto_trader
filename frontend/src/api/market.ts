@@ -1,3 +1,5 @@
+import api from './index'
+
 export interface Ticker {
   symbol: string;
   last: number;
