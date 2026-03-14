@@ -8,6 +8,7 @@ import {
   ExperimentOutlined,
   BarChartOutlined,
   RobotOutlined,
+  BankOutlined,
 } from '@ant-design/icons'
 
 const { Sider } = Layout
@@ -24,6 +25,7 @@ function Sidebar() {
     { key: '/strategies', icon: <ExperimentOutlined />, label: '策略' },
     { key: '/statistics', icon: <BarChartOutlined />, label: '统计' },
     { key: '/ai', icon: <RobotOutlined />, label: 'AI助手' },
+    { key: '/accounts', icon: <BankOutlined />, label: '账户' },
   ]
 
   return (

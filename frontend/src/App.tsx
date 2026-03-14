@@ -11,6 +11,7 @@ import Positions from './pages/Positions'
 import Strategies from './pages/Strategies'
 import Statistics from './pages/Statistics'
 import AIAssistant from './pages/AIAssistant'
+import Accounts from './pages/Accounts'
 
 const { Content } = Layout
 
@@ -39,6 +40,7 @@ function App() {
               <Route path="/strategies" element={<Strategies />} />
               <Route path="/statistics" element={<Statistics />} />
               <Route path="/ai" element={<AIAssistant />} />
+              <Route path="/accounts" element={<Accounts />} />
             </Routes>
           </Content>
         </Layout>
