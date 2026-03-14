@@ -68,7 +68,7 @@ function Accounts() {
         </Col>
         <Col xs={24} lg={10}>
           <Card title="新增账户">
-            <Form form={form} layout="vertical" onFinish={onFinish} initialValues={{ is_testnet: false }}>
+            <Form form={form} layout="vertical" onFinish={onFinish} initialValues={{ is_testnet: true }}>
               <Form.Item name="exchange" label="Exchange" rules={[{ required: true, message: '请输入 exchange' }]}>
                 <Input placeholder="例如 binance" />
               </Form.Item>
