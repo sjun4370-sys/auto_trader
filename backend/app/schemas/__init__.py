@@ -1,7 +1,7 @@
 """Pydantic Schemas"""
 from datetime import datetime
 from typing import Optional, List
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, field_validator
 
 
 # ==================== Auth ====================
@@ -50,6 +50,13 @@ class AccountUpdate(BaseModel):
     passphrase: Optional[str] = None
     is_testnet: Optional[bool] = None
     is_active: Optional[bool] = None
+
+    @field_validator("exchange")
+    @classmethod
+    def validate_exchange_not_null(cls, value: Optional[str]) -> Optional[str]:
+        if value is None:
+            raise ValueError("exchange cannot be null")
+        return value
 
 
 class AccountResponse(BaseModel):
