@@ -1,0 +1,26 @@
+# FastAPI
+uvicorn[standard]
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+
+# Database
+sqlalchemy
+aiosqlite
+
+# Settings
+pydantic
+pydantic-settings
+
+# Trading
+ccxt
+
+# Utils
+python-dotenv
+apscheduler
+httpx
+
+# Testing
+pytest
+pytest-asyncio
+pytest-cov
