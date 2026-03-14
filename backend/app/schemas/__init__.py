@@ -42,6 +42,16 @@ class AccountCreate(BaseModel):
     is_testnet: bool = True
 
 
+class AccountUpdate(BaseModel):
+    exchange: Optional[str] = None
+    account_name: Optional[str] = None
+    api_key: Optional[str] = None
+    api_secret: Optional[str] = None
+    passphrase: Optional[str] = None
+    is_testnet: Optional[bool] = None
+    is_active: Optional[bool] = None
+
+
 class AccountResponse(BaseModel):
     id: int
     exchange: str
