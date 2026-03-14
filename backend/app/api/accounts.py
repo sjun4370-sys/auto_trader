@@ -78,7 +78,10 @@ async def update_account(
 ):
     """更新账户"""
     result = await db.execute(
-        select(ExchangeAccount).where(ExchangeAccount.id == account_id)
+        select(ExchangeAccount).where(
+            ExchangeAccount.id == account_id,
+            ExchangeAccount.user_id == current_user.id
+        )
     )
     account = result.scalar_one_or_none()
 
@@ -86,12 +89,6 @@ async def update_account(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="账户不存在"
-        )
-
-    if account.user_id != current_user.id:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="无权限访问该账户"
         )
 
     update_data = account_data.model_dump(exclude_unset=True)
@@ -118,7 +115,10 @@ async def delete_account(
 ):
     """删除账户"""
     result = await db.execute(
-        select(ExchangeAccount).where(ExchangeAccount.id == account_id)
+        select(ExchangeAccount).where(
+            ExchangeAccount.id == account_id,
+            ExchangeAccount.user_id == current_user.id
+        )
     )
     account = result.scalar_one_or_none()
 
@@ -126,12 +126,6 @@ async def delete_account(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="账户不存在"
-        )
-
-    if account.user_id != current_user.id:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="无权限访问该账户"
         )
 
     await db.delete(account)
