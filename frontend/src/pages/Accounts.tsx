@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Card, Table, Tag, Form, Input, Switch, Button, message, Row, Col } from 'antd'
+import { Card, Table, Tag, Form, Input, Switch, Button, message, Row, Col, Alert } from 'antd'
 import { accountApi, AccountData } from '../api/account'
 
 function Accounts() {
@@ -54,6 +54,12 @@ function Accounts() {
       key: 'is_active',
       render: (v: boolean) => <Tag color={v ? 'green' : 'default'}>{v ? '启用' : '停用'}</Tag>,
     },
+    {
+      title: '可交易',
+      dataIndex: 'has_api_credentials',
+      key: 'has_api_credentials',
+      render: (v: boolean) => <Tag color={v ? 'green' : 'red'}>{v ? '是' : '否（缺少密钥）'}</Tag>,
+    },
     { title: '创建时间', dataIndex: 'created_at', key: 'created_at' },
   ]
 
@@ -68,6 +74,7 @@ function Accounts() {
         </Col>
         <Col xs={24} lg={10}>
           <Card title="新增账户">
+            <Alert type="info" showIcon message="账户需配置 API Key 和 API Secret 才能用于交易" style={{ marginBottom: 16 }} />
             <Form form={form} layout="vertical" onFinish={onFinish} initialValues={{ is_testnet: true }}>
               <Form.Item name="exchange" label="Exchange" rules={[{ required: true, message: '请输入 exchange' }]}>
                 <Input placeholder="例如 binance" />

@@ -36,10 +36,16 @@ class Token(BaseModel):
 class AccountCreate(BaseModel):
     exchange: str
     account_name: Optional[str] = None
-    api_key: Optional[str] = None
-    api_secret: Optional[str] = None
+    api_key: str = Field(..., min_length=1)
+    api_secret: str = Field(..., min_length=1)
     passphrase: Optional[str] = None
     is_testnet: bool = True
+
+    @model_validator(mode="after")
+    def validate_api_credentials(self):
+        if not self.api_key.strip() or not self.api_secret.strip():
+            raise ValueError("api_key 和 api_secret 不能为空")
+        return self
 
 
 class AccountUpdate(BaseModel):
@@ -64,6 +70,7 @@ class AccountResponse(BaseModel):
     account_name: Optional[str]
     is_testnet: bool
     is_active: bool
+    has_api_credentials: bool
     created_at: datetime
 
     class Config:

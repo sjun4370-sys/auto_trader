@@ -32,12 +32,18 @@ async def create_account(
     db: AsyncSession = Depends(get_db)
 ):
     """创建账户"""
+    if not account_data.api_key.strip() or not account_data.api_secret.strip():
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="创建交易账户时必须提供 api_key 和 api_secret"
+        )
+
     account = ExchangeAccount(
         user_id=current_user.id,
         exchange=account_data.exchange,
         account_name=account_data.account_name,
-        api_key=account_data.api_key,
-        api_secret=account_data.api_secret,
+        api_key=account_data.api_key.strip(),
+        api_secret=account_data.api_secret.strip(),
         passphrase=account_data.passphrase,
         is_testnet=account_data.is_testnet
     )
