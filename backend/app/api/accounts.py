@@ -95,6 +95,13 @@ async def update_account(
         )
 
     update_data = account_data.model_dump(exclude_unset=True)
+
+    if "exchange" in update_data and update_data["exchange"] is None:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="exchange cannot be null"
+        )
+
     for field, value in update_data.items():
         setattr(account, field, value)
 
