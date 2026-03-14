@@ -1,0 +1,16 @@
+[
+  {
+    "matchers": [
+      {
+        "type": "file",
+        "pattern": "^hooks/.*\\.json$"
+      }
+    ],
+    "hooks": [
+      {
+        "type": "command",
+        "command": "node scripts/validate-hooks.js"
+      }
+    ]
+  }
+]
