@@ -11,10 +11,15 @@ from app.api import (
     risk,
     ai,
     ai_chat,
+    ai_signals,
+    main
     statistics,
+    analytics,
     strategy_monitor,
     conditional_orders,
     position_alerts,
+    notifications,
+    strategy_recommendation,
 )
 
 api_router = APIRouter()
@@ -28,7 +33,11 @@ api_router.include_router(strategies.router)
 api_router.include_router(risk.router)
 api_router.include_router(ai.router)
 api_router.include_router(ai_chat.router)
+api_router.include_router(ai_signals.router)
 api_router.include_router(statistics.router)
+api_router.include_router(analytics.router)
 api_router.include_router(strategy_monitor.router)
 api_router.include_router(conditional_orders.router)
 api_router.include_router(position_alerts.router)
+api_router.include_router(notifications.router)
+api_router.include_router(strategy_recommendation.router)
