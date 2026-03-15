@@ -154,3 +154,20 @@ class TradeLog(Base):
     pnl = Column(Float)  # Profit/Loss
     note = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class SystemStatus(Base):
+    """系统状态记录模型"""
+    __tablename__ = "system_status"
+
+    id = Column(Integer, primary_key=True, index=True)
+    status = Column(String(20), default="running")  # running, stopped, error
+    exchange_status = Column(String(20), default="connected")  # connected, disconnected, error
+    last_heartbeat = Column(DateTime, default=datetime.utcnow)
+    last_order_check = Column(DateTime)
+    last_connection_check = Column(DateTime)
+    pending_orders_count = Column(Integer, default=0)
+    error_message = Column(Text)
+    metadata = Column(JSON)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
