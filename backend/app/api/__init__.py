@@ -10,7 +10,9 @@ from app.api import (
     strategies,
     risk,
     ai,
+    ai_chat,
     ai_signals,
+    main
     statistics,
     analytics,
     strategy_monitor,
@@ -30,6 +32,7 @@ api_router.include_router(positions.router)
 api_router.include_router(strategies.router)
 api_router.include_router(risk.router)
 api_router.include_router(ai.router)
+api_router.include_router(ai_chat.router)
 api_router.include_router(ai_signals.router)
 api_router.include_router(statistics.router)
 api_router.include_router(analytics.router)
