@@ -1,4 +1,5 @@
 """应用配置"""
+import os
 from pydantic_settings import BaseSettings
 from functools import lru_cache
 
@@ -11,8 +12,14 @@ class Settings(BaseSettings):
     APP_VERSION: str = "1.0.0"
     DEBUG: bool = True
 
-    # 数据库
-    DATABASE_URL: str = "sqlite+aiosqlite:///./data/okx_trader.db"
+    # 数据库 - 自动转换为绝对路径
+    DATABASE_URL: str = ""
+    
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        if not self.DATABASE_URL:
+            db_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "okx_trader.db")
+            self.DATABASE_URL = f"sqlite+aiosqlite:///{db_path.replace(chr(92), '/')}"
 
     # JWT
     SECRET_KEY: str = "your-secret-key-change-in-production"

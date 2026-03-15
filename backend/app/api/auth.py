@@ -44,6 +44,7 @@ class UserCreate(BaseModel):
     username: str
     email: EmailStr
     password: str = Field(..., min_length=6)
+    full_name: Optional[str] = None
 
 
 class UserLogin(BaseModel):
