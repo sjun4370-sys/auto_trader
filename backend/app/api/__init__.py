@@ -14,6 +14,7 @@ from app.api import (
     strategy_monitor,
     conditional_orders,
     position_alerts,
+    strategy_optimizer,
 )
 
 api_router = APIRouter()
@@ -30,3 +31,4 @@ api_router.include_router(statistics.router)
 api_router.include_router(strategy_monitor.router)
 api_router.include_router(conditional_orders.router)
 api_router.include_router(position_alerts.router)
+api_router.include_router(strategy_optimizer.router)
