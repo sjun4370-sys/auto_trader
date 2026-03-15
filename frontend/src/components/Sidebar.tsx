@@ -4,11 +4,11 @@ import {
   DashboardOutlined,
   LineChartOutlined,
   SwapOutlined,
-  HoldOutlined,
   ExperimentOutlined,
   BarChartOutlined,
   RobotOutlined,
   BankOutlined,
+  WalletOutlined,
 } from '@ant-design/icons'
 
 const { Sider } = Layout
@@ -21,7 +21,7 @@ function Sidebar() {
     { key: '/dashboard', icon: <DashboardOutlined />, label: '仪表盘' },
     { key: '/market', icon: <LineChartOutlined />, label: '行情' },
     { key: '/trade', icon: <SwapOutlined />, label: '交易' },
-    { key: '/positions', icon: <HoldOutlined />, label: '持仓' },
+    { key: '/positions', icon: <WalletOutlined />, label: '持仓' },
     { key: '/strategies', icon: <ExperimentOutlined />, label: '策略' },
     { key: '/statistics', icon: <BarChartOutlined />, label: '统计' },
     { key: '/ai', icon: <RobotOutlined />, label: 'AI助手' },
