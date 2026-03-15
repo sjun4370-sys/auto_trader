@@ -158,6 +158,19 @@ class TradeLog(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
+class OptimizationHistory(Base):
+    """优化历史记录模型"""
+    __tablename__ = "optimization_history"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    strategy_id = Column(Integer, ForeignKey("strategies.id"), nullable=False)
+    analysis_period_start = Column(DateTime, nullable=False)
+    analysis_period_end = Column(DateTime, nullable=False)
+    performance_snapshot = Column(JSON)  # 性能快照
+    suggestions = Column(JSON)  # 建议内容
+    suggestions_count = Column(Integer, default=0)
+    created_at = Column(DateTime, default=datetime.utcnow)
 class AIChatHistory(Base):
     """AI对话历史模型"""
     __tablename__ = "ai_chat_history"

@@ -18,6 +18,7 @@ from app.api import (
     strategy_monitor,
     conditional_orders,
     position_alerts,
+    strategy_optimizer,
     notifications,
     strategy_recommendation,
 )
@@ -39,5 +40,6 @@ api_router.include_router(analytics.router)
 api_router.include_router(strategy_monitor.router)
 api_router.include_router(conditional_orders.router)
 api_router.include_router(position_alerts.router)
+api_router.include_router(strategy_optimizer.router)
 api_router.include_router(notifications.router)
 api_router.include_router(strategy_recommendation.router)
