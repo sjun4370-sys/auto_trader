@@ -1,6 +1,13 @@
 """
 仓位管理提醒 API
 实现自动加仓/减仓提醒功能
+
+API Endpoints:
+- POST /api/v1/position-alerts - 创建仓位提醒
+- GET /api/v1/position-alerts - 获取提醒列表
+- GET /api/v1/position-alerts/check/{symbol} - 检查是否触发
+- DELETE /api/v1/position-alerts/{id} - 删除提醒
+- POST /api/v1/position-alerts/{id}/toggle - 启用/禁用提醒
 """
 from typing import List, Optional
 from datetime import datetime
