@@ -1,12 +1,10 @@
 """数据库连接与模型定义"""
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.orm import sessionmaker, declarative_base
 from app.config import settings
 
 
-class Base(DeclarativeBase):
-    """基类模型"""
-    pass
+Base = declarative_base()
 
 
 # 创建异步引擎
@@ -17,10 +15,12 @@ engine = create_async_engine(
 )
 
 # 创建会话工厂
-AsyncSessionLocal = async_sessionmaker(
+AsyncSessionLocal = sessionmaker(
     engine,
     class_=AsyncSession,
     expire_on_commit=False,
+    autocommit=False,
+    autoflush=False,
 )
 
 
