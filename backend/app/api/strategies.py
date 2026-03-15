@@ -8,6 +8,7 @@ from app.database import get_db
 from app.models import User, Strategy
 from app.schemas import StrategyCreate, StrategyResponse
 from app.api.deps import get_current_user
+from app.scheduler import scheduler
 
 router = APIRouter(prefix="/strategies", tags=["策略"])
 
@@ -120,11 +121,15 @@ async def start_strategy(
             detail="策略不存在"
         )
 
-    # TODO: 启动策略执行
-    strategy.is_active = True
-    await db.commit()
-
-    return {"message": "策略已启动"}
+    # 调用调度器启动策略
+    try:
+        result = await scheduler.start_strategy(strategy_id, db)
+        return result
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
 
 
 @router.post("/{strategy_id}/stop")
@@ -148,11 +153,15 @@ async def stop_strategy(
             detail="策略不存在"
         )
 
-    # TODO: 停止策略执行
-    strategy.is_active = False
-    await db.commit()
-
-    return {"message": "策略已停止"}
+    # 调用调度器停止策略
+    try:
+        result = await scheduler.stop_strategy(strategy_id, db)
+        return result
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
 
 
 @router.delete("/{strategy_id}")

@@ -9,6 +9,7 @@ from app.config import settings
 from app.database import init_db, close_db
 from app.api import api_router
 from app import models  # 导入models以注册所有表
+from app.scheduler import scheduler
 
 
 @asynccontextmanager
@@ -21,9 +22,13 @@ async def lifespan(app: FastAPI):
     # 初始化数据库
     await init_db()
 
+    # 启动策略调度器
+    scheduler.start()
+
     yield
 
     # 关闭时
+    scheduler.stop()
     await close_db()
 
 

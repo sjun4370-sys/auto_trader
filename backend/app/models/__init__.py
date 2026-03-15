@@ -119,6 +119,25 @@ class Strategy(Base):
 
     # 关联
     user = relationship("User", back_populates="strategies")
+    runs = relationship("StrategyRun", back_populates="strategy", cascade="all, delete-orphan")
+
+
+class StrategyRun(Base):
+    """策略运行记录模型"""
+    __tablename__ = "strategy_runs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    strategy_id = Column(Integer, ForeignKey("strategies.id"), nullable=False)
+    status = Column(String(20), default="pending")  # pending, running, completed, stopped, error
+    started_at = Column(DateTime, default=datetime.utcnow)
+    ended_at = Column(DateTime)
+    last_executed_at = Column(DateTime)
+    execution_count = Column(Integer, default=0)
+    orders_count = Column(Integer, default=0)
+    error_message = Column(Text)
+    
+    # 关联
+    strategy = relationship("Strategy", back_populates="runs")
 
 
 class TradeLog(Base):
