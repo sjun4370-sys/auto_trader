@@ -23,6 +23,8 @@ class User(Base):
     positions = relationship("Position", back_populates="user", cascade="all, delete-orphan")
     orders = relationship("Order", back_populates="user", cascade="all, delete-orphan")
     strategies = relationship("Strategy", back_populates="user", cascade="all, delete-orphan")
+    ai_signals = relationship("AISignal", back_populates="user", cascade="all, delete-orphan")
+    strategy_recommendations = relationship("StrategyRecommendation", back_populates="user", cascade="all, delete-orphan")
 
 
 class ExchangeAccount(Base):
@@ -154,3 +156,45 @@ class TradeLog(Base):
     pnl = Column(Float)  # Profit/Loss
     note = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class AISignal(Base):
+    """AI买卖信号模型"""
+    __tablename__ = "ai_signals"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    symbol = Column(String(20), nullable=False)  # 交易对
+    signal_type = Column(String(20), nullable=False)  # buy, sell, hold
+    price = Column(Float, nullable=False)  # 当前价格
+    confidence = Column(Float, default=0.0)  # 置信度 0-1
+    reason = Column(Text)  # 信号原因
+    status = Column(String(20), default="pending")  # pending, executed, expired, cancelled
+    executed_at = Column(DateTime)  # 执行时间
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    # 关联
+    user = relationship("User", back_populates="ai_signals")
+
+
+class StrategyRecommendation(Base):
+    """策略推荐模型"""
+    __tablename__ = "strategy_recommendations"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    symbol = Column(String(20), nullable=False)  # 交易对
+    recommended_strategy = Column(String(50), nullable=False)  # 推荐的策略类型
+    market_condition = Column(String(50), nullable=False)  # 市场条件: volatile, stable, trending_up, trending_down, sideways
+    confidence = Column(Float, default=0.0)  # 推荐置信度 0-1
+    price = Column(Float, nullable=False)  # 当前价格
+    volatility = Column(Float)  # 波动率
+    volume = Column(Float)  # 成交量
+    volume_change = Column(Float)  # 成交量变化率
+    trend_strength = Column(Float)  # 趋势强度
+    reason = Column(Text)  # 推荐原因
+    is_applied = Column(Boolean, default=False)  # 是否被应用
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    # 关联
+    user = relationship("User", back_populates="strategy_recommendations")
