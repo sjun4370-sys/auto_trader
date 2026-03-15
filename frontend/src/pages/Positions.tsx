@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Table, Button, Space, Tag } from 'antd'
+import { Table, Button, Tag, message } from 'antd'
 import { positionApi, PositionData } from '../api/position'
 
 function Positions() {

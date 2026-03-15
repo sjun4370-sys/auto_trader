@@ -12,7 +12,6 @@ from app.api import (
     ai,
     ai_chat,
     ai_signals,
-    main
     statistics,
     analytics,
     strategy_monitor,

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Card, Row, Col, Statistic } from 'antd'
-import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons'
+import { ArrowUpOutlined } from '@ant-design/icons'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 
 function Dashboard() {
-  const [data, setData] = useState([])
+  const [data, setData] = useState<{time: string; value: number}[]>([])
 
   useEffect(() => {
     // 模拟数据
