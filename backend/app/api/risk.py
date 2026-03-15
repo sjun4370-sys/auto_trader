@@ -26,3 +26,19 @@ async def position_limits(current_user: User = Depends(get_current_user)):
         "max_position_percent": 10.0,
         "default_leverage": 3,
     }
+
+
+@router.get("/config")
+async def risk_config(current_user: User = Depends(get_current_user)):
+    """获取风控配置"""
+    return {
+        "max_position_percent": 10.0,
+        "max_leverage": 3,
+        "stop_loss_percent": 5.0,
+        "take_profit_percent": 10.0,
+        "max_daily_loss": 15.0,
+        "max_consecutive_losses": 3,
+        "cooling_period_minutes": 60,
+        "enable_circuit_breaker": True,
+        "max_open_orders": 10,
+    }

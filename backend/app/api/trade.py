@@ -1,6 +1,7 @@
 """交易API"""
 import ccxt
 from typing import List
+from datetime import datetime as dt
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
@@ -74,7 +75,7 @@ async def create_order(
     await db.commit()
     await db.refresh(order)
 
-    # 执行交易
+    # 执行交易（如果是is_testnet=True，会自动使用OKX模拟盘API）
     try:
         exchange = get_exchange(account)
 
@@ -92,9 +93,11 @@ async def create_order(
 
         # 更新订单状态
         order.order_id = result.get('id')
-        order.status = result.get('status', 'filled')
+        order.status = result.get('status') or 'filled'
         order.filled_price = result.get('average') or result.get('price')
-        order.filled_at = result.get('datetime')
+        
+        # 处理时间格式 - 使用当前时间
+        order.filled_at = dt.utcnow()
 
         await db.commit()
         await db.refresh(order)
