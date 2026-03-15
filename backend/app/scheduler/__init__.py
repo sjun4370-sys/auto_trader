@@ -7,9 +7,11 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+import ccxt
 
-from app.models import Strategy, StrategyRun
+from app.models import Strategy, StrategyRun, ExchangeAccount
 from app.engine.strategy_engine import get_strategy_engine
+from app.engine.grid_engine import GridTradingEngine
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +44,7 @@ class StrategyScheduler:
             self._scheduler.shutdown()
             logger.info("策略调度器已停止")
     
-    async def start_strategy(self, strategy_id: int, db: AsyncSession):
+    async def start_strategy(self, strategy_id: int, db: AsyncSession, user_id: int = None):
         """启动策略"""
         # 获取策略配置
         result = await db.execute(
@@ -56,6 +58,10 @@ class StrategyScheduler:
         if strategy.id in self._running_strategies:
             raise ValueError(f"策略 {strategy_id} 已在运行中")
         
+        # 获取用户ID
+        if user_id is None:
+            user_id = strategy.user_id
+        
         # 创建策略运行记录
         run = StrategyRun(
             strategy_id=strategy_id,
@@ -65,14 +71,6 @@ class StrategyScheduler:
         db.add(run)
         await db.commit()
         await db.refresh(run)
-        
-        # 创建执行器
-        engine = get_strategy_engine(
-            strategy.strategy_type,
-            strategy_id,
-            strategy.config,
-            db
-        )
         
         # 设置运行状态
         self._running_strategies[strategy_id] = True
@@ -85,7 +83,7 @@ class StrategyScheduler:
         self._scheduler.add_job(
             self._execute_strategy,
             trigger=IntervalTrigger(minutes=interval_minutes),
-            args=[strategy_id, strategy.strategy_type, strategy.config, db, run.id],
+            args=[strategy_id, strategy.strategy_type, strategy.config, db, run.id, user_id],
             id=job_id,
             replace_existing=True
         )
@@ -138,14 +136,52 @@ class StrategyScheduler:
         return {"message": "策略已停止"}
     
     async def _execute_strategy(self, strategy_id: int, strategy_type: str, 
-                                config: dict, db: AsyncSession, run_id: int):
+                                config: dict, db: AsyncSession, run_id: int, user_id: int = None):
         """执行策略的定时任务"""
         if strategy_id not in self._running_strategies:
             return
         
         try:
-            engine = get_strategy_engine(strategy_type, strategy_id, config, db)
-            result = await engine.run()
+            # 网格策略使用专用引擎
+            if strategy_type == 'grid':
+                # 获取用户的交易账户
+                if user_id:
+                    account_result = await db.execute(
+                        select(ExchangeAccount).where(
+                            ExchangeAccount.user_id == user_id,
+                            ExchangeAccount.is_active == True
+                        ).limit(1)
+                    )
+                    account = account_result.scalar_one_or_none()
+                    
+                    if not account or not account.api_key:
+                        logger.warning(f"策略 {strategy_id}: 未找到交易账户")
+                        return
+                    
+                    # 创建交易所实例
+                    exchange_class = getattr(ccxt, account.exchange)
+                    exchange = exchange_class({
+                        'apiKey': account.api_key,
+                        'secret': account.api_secret,
+                        'password': account.passphrase,
+                        'enableRateLimit': True,
+                    })
+                    
+                    if account.is_testnet:
+                        exchange.set_sandbox_mode(True)
+                    
+                    # 使用网格引擎
+                    grid_engine = GridTradingEngine(strategy_id, config, db)
+                    await grid_engine.initialize(exchange)
+                    
+                    symbol = config.get('symbol', 'BTC/USDT')
+                    result = await grid_engine.run_grid_strategy(symbol)
+                else:
+                    result = {'status': 'error', 'error': '缺少用户ID'}
+            else:
+                # 其他策略使用通用引擎
+                engine = get_strategy_engine(strategy_type, strategy_id, config, db)
+                result = await engine.run()
             
             # 更新运行记录
             run_result = await db.execute(

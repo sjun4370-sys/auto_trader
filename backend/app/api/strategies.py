@@ -123,7 +123,7 @@ async def start_strategy(
 
     # 调用调度器启动策略
     try:
-        result = await scheduler.start_strategy(strategy_id, db)
+        result = await scheduler.start_strategy(strategy_id, db, current_user.id)
         return result
     except Exception as e:
         raise HTTPException(

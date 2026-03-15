@@ -85,6 +85,7 @@ class Order(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     account_id = Column(Integer, ForeignKey("exchange_accounts.id"), nullable=True)
+    strategy_id = Column(Integer, ForeignKey("strategies.id"), nullable=True)  # 策略ID
     symbol = Column(String(20), nullable=False)
     side = Column(String(10), nullable=False)  # buy, sell
     order_type = Column(String(20), nullable=False)  # market, limit
