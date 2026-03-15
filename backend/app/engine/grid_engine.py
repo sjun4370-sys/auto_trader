@@ -1,10 +1,21 @@
 """
-现货网格交易引擎
+现货网格交易引擎 (v2 - PR测试)
 实现完整的网格交易逻辑，包括：
 1. 网格价格计算
 2. 订单执行
 3. 止盈止损
 4. 持仓管理
+
+使用说明:
+1. 创建策略时设置 strategy_type='grid'
+2. 配置参数:
+   - symbol: 交易对 (如 BTC/USDT)
+   - grid_count: 网格数量
+   - grid_spacing: 网格间距 (如 0.01 = 1%)
+   - position_size: 每格仓位大小
+   - stop_loss_percent: 止损比例
+   - take_profit_percent: 止盈比例
+3. 启动策略后会自动执行网格交易
 """
 import asyncio
 import logging
