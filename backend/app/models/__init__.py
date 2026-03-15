@@ -154,3 +154,17 @@ class TradeLog(Base):
     pnl = Column(Float)  # Profit/Loss
     note = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class AIChatHistory(Base):
+    """AI对话历史模型"""
+    __tablename__ = "ai_chat_history"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    role = Column(String(20), nullable=False)  # user, assistant
+    content = Column(Text, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    # 关联
+    user = relationship("User")
