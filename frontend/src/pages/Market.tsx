@@ -15,7 +15,7 @@ function Market() {
     setLoading(true)
     try {
       const res = await marketApi.getTickers()
-      const data = Object.values(res.data).filter((t: any) => !t.error)
+      const data = Object.values(res.data as Record<string, Ticker>).filter((t: Ticker) => !(t as any).error)
       setTickers(data)
     } catch (error) {
       console.error(error)

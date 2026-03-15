@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Card, Input, Button, List, Avatar } from 'antd'
+import { Card, Input, List, Avatar } from 'antd'
 import { SendOutlined, RobotOutlined, UserOutlined } from '@ant-design/icons'
 
 interface Message {

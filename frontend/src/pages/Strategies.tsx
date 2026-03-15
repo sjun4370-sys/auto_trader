@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Table, Button, Space, Tag, Card } from 'antd'
+import { Table, Button, Tag, Card, message, Space } from 'antd'
 import { strategyApi, StrategyData } from '../api/strategy'
 
 function Strategies() {
