@@ -170,7 +170,7 @@ class SystemStatus(Base):
     last_connection_check = Column(DateTime)
     pending_orders_count = Column(Integer, default=0)
     error_message = Column(Text)
-    metadata = Column(JSON)
+    extra_data = Column(JSON)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 class OptimizationHistory(Base):

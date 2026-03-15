@@ -197,13 +197,16 @@ async def analyze_market(
     db: AsyncSession = Depends(get_db),
 ):
     """分析市场并推荐策略"""
-    exchange = get_exchange()
-
+    import ccxt
+    
+    # 使用OKX API
+    exchange = ccxt.okx({
+        'enableRateLimit': True,
+        'timeout': 10000,  # 10秒超时
+    })
+    
     # 获取K线数据
-    try:
-        ohlcv = exchange.fetch_ohlcv(symbol, timeframe, limit=100)
-    except Exception as e:
-        return {"error": f"获取行情数据失败: {str(e)}"}
+    ohlcv = exchange.fetch_ohlcv(symbol, timeframe, limit=50)
 
     if not ohlcv:
         return {"error": "无法获取K线数据"}
