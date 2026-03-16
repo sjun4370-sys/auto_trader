@@ -13,6 +13,8 @@ function Login() {
     try {
       const res = await authApi.login(values)
       localStorage.setItem('token', res.data.access_token)
+      // 触发自定义事件通知 App 组件 token 已变化
+      window.dispatchEvent(new Event('token-change'))
       message.success('登录成功')
       navigate('/dashboard')
     } catch (error: any) {

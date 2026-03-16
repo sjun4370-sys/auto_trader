@@ -1,5 +1,6 @@
+import { useState, useEffect } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
-import { Layout } from 'antd'
+import { Layout, Drawer } from 'antd'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
 import Login from './pages/Login'
@@ -15,18 +16,92 @@ import Accounts from './pages/Accounts'
 
 const { Content } = Layout
 
-function App() {
-  const token = localStorage.getItem('token');
+// 响应式断点
+const BREAKPOINT = 768
 
-  return token ? (
+// 监听 localStorage 变化的 key
+const TOKEN_KEY = 'token'
+
+function App() {
+  const [token, setToken] = useState(() => localStorage.getItem(TOKEN_KEY))
+  const [isMobile, setIsMobile] = useState(false)
+  const [drawerVisible, setDrawerVisible] = useState(false)
+
+  // 监听 localStorage 变化（用于跨标签页同步）
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === TOKEN_KEY) {
+        setToken(e.newValue)
+      }
+    }
+
+    // 监听自定义事件（用于同标签页内的 token 变化）
+    const handleTokenChange = () => {
+      setToken(localStorage.getItem(TOKEN_KEY))
+    }
+
+    window.addEventListener('storage', handleStorageChange)
+    window.addEventListener('token-change', handleTokenChange)
+    return () => {
+      window.removeEventListener('storage', handleStorageChange)
+      window.removeEventListener('token-change', handleTokenChange)
+    }
+  }, [])
+
+  // 监听屏幕宽度变化
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < BREAKPOINT)
+    }
+
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  // 移动端菜单点击后关闭抽屉
+  const handleMenuClick = () => {
+    if (isMobile) {
+      setDrawerVisible(false)
+    }
+  }
+
+  if (!token) {
+    return (
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="*" element={<Navigate to="/login" />} />
+      </Routes>
+    )
+  }
+
+  return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Header />
+      <Header
+        isMobile={isMobile}
+        onMenuClick={() => setDrawerVisible(true)}
+      />
       <Layout>
-        <Sidebar />
-        <Layout style={{ padding: '0 24px 24px' }}>
+        {/* PC端显示左侧菜单，移动端使用抽屉 */}
+        {isMobile ? (
+          <Drawer
+            placement="left"
+            onClose={() => setDrawerVisible(false)}
+            open={drawerVisible}
+            width={200}
+            bodyStyle={{ padding: 0 }}
+          >
+            <Sidebar onMenuClick={handleMenuClick} />
+          </Drawer>
+        ) : (
+          <Sidebar />
+        )}
+
+        <Layout style={{ padding: isMobile ? '0 12px 12px' : '0 24px 24px' }}>
           <Content
             style={{
-              padding: 24,
+              padding: isMobile ? 12 : 24,
               margin: 0,
               minHeight: 280,
             }}
@@ -46,12 +121,6 @@ function App() {
         </Layout>
       </Layout>
     </Layout>
-  ) : (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="*" element={<Navigate to="/login" />} />
-    </Routes>
   )
 }
 
