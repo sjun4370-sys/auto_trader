@@ -13,7 +13,11 @@ import {
 
 const { Sider } = Layout
 
-function Sidebar() {
+interface SidebarProps {
+  onMenuClick?: () => void
+}
+
+function Sidebar({ onMenuClick }: SidebarProps) {
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -28,6 +32,11 @@ function Sidebar() {
     { key: '/accounts', icon: <BankOutlined />, label: '账户' },
   ]
 
+  const handleMenuClick = ({ key }: { key: string }) => {
+    navigate(key)
+    onMenuClick?.()
+  }
+
   return (
     <Sider width={200} style={{ background: '#fff' }}>
       <Menu
@@ -35,7 +44,7 @@ function Sidebar() {
         selectedKeys={[location.pathname]}
         style={{ height: '100%', borderRight: 0 }}
         items={menuItems}
-        onClick={({ key }) => navigate(key)}
+        onClick={handleMenuClick}
       />
     </Sider>
   )
