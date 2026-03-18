@@ -115,24 +115,163 @@ function Strategies() {
       </Card>
 
       <Modal
-        title="创建策略"
+        title={null}
+        className="strategy-modal"
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
-        onOk={form.submit}
+        footer={null}
+        width={400}
+        style={{ top: 60 }}
+        centered
       >
-        <Form form={form} onFinish={handleCreate} layout="vertical">
-          <Form.Item name="name" label="策略名称" rules={[{ required: true, message: '请输入策略名称' }]}>
-            <Input placeholder="请输入策略名称" />
-          </Form.Item>
-          <Form.Item name="strategy_type" label="策略类型" rules={[{ required: true, message: '请选择策略类型' }]}>
-            <Select placeholder="请选择策略类型">
-              <Select.Option value="grid">网格交易</Select.Option>
-              <Select.Option value="trend">趋势跟踪</Select.Option>
-              <Select.Option value="arbitrage">套利</Select.Option>
-            </Select>
-          </Form.Item>
-        </Form>
+        <div className="strategy-modal-inner">
+          <div className="strategy-modal-header">
+            <span className="strategy-modal-icon">✦</span>
+            <h2 className="strategy-modal-title">创建策略</h2>
+          </div>
+
+          <Form form={form} onFinish={handleCreate} layout="vertical" className="strategy-form">
+            <Form.Item name="name" rules={[{ required: true, message: '请输入策略名称' }]}>
+              <Input
+                placeholder="策略名称"
+                className="strategy-input"
+              />
+            </Form.Item>
+            <Form.Item name="strategy_type" rules={[{ required: true, message: '请选择策略类型' }]}>
+              <Select
+                placeholder="选择策略类型"
+                className="strategy-select"
+              >
+                <Select.Option value="grid">网格交易</Select.Option>
+                <Select.Option value="trend">趋势跟踪</Select.Option>
+                <Select.Option value="arbitrage">套利</Select.Option>
+              </Select>
+            </Form.Item>
+
+            <div className="strategy-modal-actions">
+              <button type="button" className="btn-cancel" onClick={() => setModalVisible(false)}>
+                取消
+              </button>
+              <button type="submit" className="btn-create">
+                创建
+              </button>
+            </div>
+          </Form>
+        </div>
       </Modal>
+
+      <style>{`
+        .strategy-modal .ant-modal-content {
+          background: rgba(22,22,22,0.96) !important;
+          border: 1px solid rgba(255,255,255,0.08) !important;
+          border-radius: 14px !important;
+          box-shadow: 0 20px 60px rgba(0,0,0,0.55), 0 0 1px rgba(255,255,255,0.05) inset !important;
+        }
+        .strategy-modal .ant-modal-close {
+          display: none !important;
+        }
+        .strategy-modal-inner {
+          padding: 0 !important;
+        }
+        .strategy-modal-header {
+          display: flex !important;
+          align-items: center !important;
+          gap: 10px !important;
+          padding: 18px 22px !important;
+          border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+        }
+        .strategy-modal-icon {
+          width: 28px !important;
+          height: 28px !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          background: rgba(255,255,255,0.06) !important;
+          border: 1px solid rgba(255,255,255,0.1) !important;
+          border-radius: 7px !important;
+          color: rgba(255,255,255,0.6) !important;
+          font-size: 13px !important;
+        }
+        .strategy-modal-title {
+          font-size: 15px !important;
+          font-weight: 600 !important;
+          color: #fff !important;
+          margin: 0 !important;
+        }
+        .strategy-form {
+          padding: 16px 22px 20px !important;
+          margin: 0 !important;
+        }
+        .strategy-form .ant-form-item {
+          margin-bottom: 12px !important;
+        }
+        .strategy-form .ant-form-item:last-child {
+          margin-bottom: 0 !important;
+        }
+        .strategy-input {
+          height: 40px !important;
+          background: rgba(255,255,255,0.04) !important;
+          border: 1px solid rgba(255,255,255,0.1) !important;
+          border-radius: 8px !important;
+          color: #fff !important;
+          font-size: 14px !important;
+        }
+        .strategy-input:hover, .strategy-input:focus {
+          border-color: rgba(255,255,255,0.18) !important;
+        }
+        .strategy-input::placeholder {
+          color: rgba(255,255,255,0.3) !important;
+        }
+        .strategy-select .ant-select-selector {
+          height: 40px !important;
+          background: rgba(255,255,255,0.04) !important;
+          border: 1px solid rgba(255,255,255,0.1) !important;
+          border-radius: 8px !important;
+          font-size: 14px !important;
+        }
+        .strategy-select .ant-select-selector:hover {
+          border-color: rgba(255,255,255,0.18) !important;
+        }
+        .strategy-select .ant-select-placeholder {
+          color: rgba(255,255,255,0.3) !important;
+        }
+        .strategy-select .ant-select-arrow {
+          color: rgba(255,255,255,0.4) !important;
+        }
+        .strategy-modal-actions {
+          display: flex !important;
+          gap: 10px !important;
+          margin-top: 16px !important;
+        }
+        .btn-cancel {
+          flex: 1 !important;
+          height: 38px !important;
+          background: transparent !important;
+          border: 1px solid rgba(255,255,255,0.1) !important;
+          border-radius: 8px !important;
+          color: rgba(255,255,255,0.65) !important;
+          font-size: 14px !important;
+          cursor: pointer !important;
+        }
+        .btn-cancel:hover {
+          border-color: rgba(255,255,255,0.18) !important;
+          color: #fff !important;
+        }
+        .btn-create {
+          flex: 1 !important;
+          height: 38px !important;
+          background: #fff !important;
+          border: none !important;
+          border-radius: 8px !important;
+          color: #000 !important;
+          font-size: 14px !important;
+          font-weight: 600 !important;
+          cursor: pointer !important;
+        }
+        .btn-create:hover {
+          background: rgba(255,255,255,0.92) !important;
+        }
+      `}</style>
     </div>
   )
 }

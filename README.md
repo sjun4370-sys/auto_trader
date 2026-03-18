@@ -56,17 +56,10 @@
 # 进入后端目录
 cd backend
 
-# 创建虚拟环境
-python -m venv venv
-
-# 激活虚拟环境
-# Linux/Mac:
-source venv/bin/activate
-# Windows:
-venv\Scripts\activate
-
 # 安装依赖
 pip install -r requirements.txt
+或
+python -m pip install -r requirements.txt
 
 # 复制环境配置
 cp .env.example .env

@@ -24,7 +24,10 @@ function HeaderComponent({ isMobile, onMenuClick }: HeaderProps) {
       display: 'flex',
       alignItems: 'center',
       justifyContent: isMobile ? 'space-between' : 'flex-end',
-      background: '#001529',
+      background: 'rgba(20,20,20,0.8)',
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
+      borderBottom: '1px solid rgba(255,255,255,0.08)',
       padding: isMobile ? '0 12px' : '0 24px'
     }}>
       {/* 移动端显示汉堡菜单按钮 */}
@@ -38,10 +41,10 @@ function HeaderComponent({ isMobile, onMenuClick }: HeaderProps) {
       )}
 
       <Space>
-        <Button type="text" icon={<UserOutlined />} style={{ color: '#fff' }}>
+        <Button type="text" icon={<UserOutlined />} style={{ color: 'rgba(255,255,255,0.8)' }}>
           {isMobile ? '' : '个人中心'}
         </Button>
-        <Button type="text" icon={<LogoutOutlined />} onClick={handleLogout} style={{ color: '#fff' }}>
+        <Button type="text" icon={<LogoutOutlined />} onClick={handleLogout} style={{ color: 'rgba(255,255,255,0.8)' }}>
           {isMobile ? '' : '退出'}
         </Button>
       </Space>

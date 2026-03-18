@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { Layout, Drawer } from 'antd'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
+import BackgroundDecoration from './components/BackgroundDecoration'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
@@ -77,7 +78,9 @@ function App() {
   }
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout style={{ minHeight: '100vh', background: '#000000' }}>
+      {/* 背景装饰 */}
+      <BackgroundDecoration />
       <Header
         isMobile={isMobile}
         onMenuClick={() => setDrawerVisible(true)}
@@ -98,12 +101,14 @@ function App() {
           <Sidebar />
         )}
 
-        <Layout style={{ padding: isMobile ? '0 12px 12px' : '0 24px 24px' }}>
+        <Layout style={{ padding: isMobile ? '12px' : '24px', background: '#000' }}>
           <Content
             style={{
-              padding: isMobile ? 12 : 24,
+              padding: 0,
               margin: 0,
               minHeight: 280,
+              background: '#000',
+              color: '#fff'
             }}
           >
             <Routes>

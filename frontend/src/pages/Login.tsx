@@ -3,9 +3,10 @@
  */
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Mail, ShieldCheck, Sparkles, Apple, Github } from 'lucide-react'
+import { Mail, ShieldCheck, Apple, Github } from 'lucide-react'
 import { message } from 'antd'
 import { authApi } from '../api/auth'
+import BackgroundDecoration from '../components/BackgroundDecoration'
 
 function Login() {
   const navigate = useNavigate()
@@ -46,413 +47,400 @@ function Login() {
         width: '100%',
         height: '100vh',
         display: 'flex',
-        background: '#0A0A0A',
+        background: '#000000',
         position: 'relative',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        alignItems: 'center',
+        justifyContent: 'center'
       }}
     >
-      {/* Background Image */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          backgroundImage: 'url(https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
-      />
+      {/* Background Decoration */}
+      <BackgroundDecoration />
 
-      {/* Overlay */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: 'linear-gradient(180deg, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0) 50%, rgba(10,10,10,0.5) 100%)'
-        }}
-      />
-
-      {/* Content */}
+      {/* Centered Card */}
       <div
         style={{
           position: 'relative',
-          width: '100%',
-          height: '100%',
+          width: '440px',
+          maxWidth: '90vw',
           display: 'flex',
-          justifyContent: 'space-between'
+          flexDirection: 'column',
+          gap: '32px',
+          background: 'rgba(255,255,255,0.03)',
+          borderRadius: '24px',
+          padding: '48px 40px',
+          border: '1px solid rgba(255,255,255,0.1)',
+          boxShadow: '0 24px 80px rgba(0,0,0,0.5)',
+          animation: 'fadeInUp 0.6s ease-out',
+          zIndex: 1
         }}
       >
-        {/* Left Panel */}
-        <div
-          style={{
-            flex: 1,
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            padding: '80px',
-            gap: '32px',
-            alignItems: 'center'
-          }}
-        >
+        {/* Header */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
           {/* Brand Logo */}
           <div
             style={{
-              width: '120px',
-              height: '120px',
-              borderRadius: '32px',
-              background: 'radial-gradient(circle, #A78BFA 0%, #7C3AED 100%)',
+              width: '72px',
+              height: '72px',
+              borderRadius: '20px',
+              background: '#FFFFFF',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              position: 'relative',
-              boxShadow: '0 12px 32px rgba(124,58,237,0.5)'
+              justifyContent: 'center'
             }}
           >
-            <ShieldCheck style={{ width: '60px', height: '60px', color: '#FFFFFF' }} />
+            <ShieldCheck style={{ width: '36px', height: '36px', color: '#000000' }} />
           </div>
 
-          {/* Brand Title */}
-          <h1
-            style={{
-              fontSize: '48px',
-              fontWeight: 700,
-              color: '#FFFFFF',
-              margin: 0,
-              fontFamily: 'Inter, sans-serif',
-              textAlign: 'center'
-            }}
-          >
-            管理后台
-          </h1>
-
-          {/* Brand Description */}
-          <p
-            style={{
-              fontSize: '18px',
-              fontWeight: 400,
-              color: 'rgba(255,255,255,0.6)',
-              margin: 0,
-              fontFamily: 'Inter, sans-serif',
-              textAlign: 'center',
-              width: '400px'
-            }}
-          >
-            安全可靠的企业级管理平台
-          </p>
+          <div style={{ textAlign: 'center' }}>
+            <h1
+              style={{
+                fontSize: '28px',
+                fontWeight: 600,
+                color: '#FFFFFF',
+                margin: '0 0 8px 0',
+                fontFamily: 'Inter, sans-serif'
+              }}
+            >
+              欢迎回来
+            </h1>
+            <p
+              style={{
+                fontSize: '14px',
+                fontWeight: 400,
+                color: 'rgba(255,255,255,0.6)',
+                margin: 0,
+                fontFamily: 'Inter, sans-serif'
+              }}
+            >
+              登录以继续使用
+            </p>
+          </div>
         </div>
-        {/* Right Panel */}
-        <div
-          style={{
-            width: '600px',
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            padding: '80px 60px'
-          }}
-        >
-          {/* Glass Card */}
-          <div
-            style={{
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '28px',
-              background: 'rgba(255,255,255,0.08)',
-              backdropFilter: 'blur(40px)',
-              borderRadius: '32px',
-              padding: '48px 40px',
-              border: '1px solid rgba(255,255,255,0.25)',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.25)',
-              backgroundImage: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.06) 100%)'
-            }}
-          >
-            {/* Header */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center' }}>
-              {/* Logo */}
-              <div
+
+        {/* Form Section */}
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Email Input */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <label
+              style={{
+                fontSize: '13px',
+                fontWeight: 500,
+                color: 'rgba(255,255,255,0.8)',
+                fontFamily: 'Inter, sans-serif'
+              }}
+            >
+              邮箱地址
+            </label>
+            <div style={{ position: 'relative' }}>
+              <Mail
                 style={{
-                  width: '64px',
-                  height: '64px',
-                  borderRadius: '20px',
-                  background: 'radial-gradient(circle, #A78BFA 0%, #7C3AED 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 8px 24px rgba(124,58,237,0.4)'
+                  position: 'absolute',
+                  left: '16px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  width: '18px',
+                  height: '18px',
+                  color: 'rgba(255,255,255,0.4)'
                 }}
-              >
-                <Sparkles style={{ width: '32px', height: '32px', color: '#FFFFFF' }} />
-              </div>
-
-              <h1
-                style={{
-                  fontSize: '28px',
-                  fontWeight: 600,
-                  color: '#FFFFFF',
-                  margin: 0,
-                  fontFamily: 'Inter, sans-serif',
-                  textAlign: 'center',
-                  width: '100%'
-                }}
-              >
-                欢迎回来
-              </h1>
-
-              <p
-                style={{
-                  fontSize: '14px',
-                  fontWeight: 400,
-                  color: 'rgba(255,255,255,0.6)',
-                  margin: 0,
-                  fontFamily: 'Inter, sans-serif',
-                  textAlign: 'center',
-                  width: '100%'
-                }}
-              >
-                登录以继续使用
-              </p>
-            </div>
-
-            {/* Form Section */}
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              {/* Email Input */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <label
-                  style={{
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    color: 'rgba(255,255,255,0.8)',
-                    fontFamily: 'Inter, sans-serif'
-                  }}
-                >
-                  邮箱地址
-                </label>
-                <input
-                  type="text"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleChange}
-                  placeholder="your@email.com"
-                  required
-                  style={{
-                    width: '100%',
-                    height: '48px',
-                    background: 'rgba(255,255,255,0.06)',
-                    border: '1px solid rgba(255,255,255,0.13)',
-                    borderRadius: '12px',
-                    padding: '0 16px',
-                    fontSize: '14px',
-                    color: 'rgba(255,255,255,0.4)',
-                    fontFamily: 'Inter, sans-serif',
-                    outline: 'none'
-                  }}
-                />
-              </div>
-
-              {/* Password Input */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <label
-                  style={{
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    color: 'rgba(255,255,255,0.8)',
-                    fontFamily: 'Inter, sans-serif'
-                  }}
-                >
-                  密码
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="••••••••"
-                  required
-                  style={{
-                    width: '100%',
-                    height: '48px',
-                    background: 'rgba(255,255,255,0.06)',
-                    border: '1px solid rgba(255,255,255,0.13)',
-                    borderRadius: '12px',
-                    padding: '0 16px',
-                    fontSize: '14px',
-                    color: 'rgba(255,255,255,0.4)',
-                    fontFamily: 'Inter, sans-serif',
-                    outline: 'none'
-                  }}
-                />
-              </div>
-
-              {/* Options Row */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                  <input
-                    type="checkbox"
-                    name="remember"
-                    checked={formData.remember}
-                    onChange={handleChange}
-                    style={{
-                      width: '18px',
-                      height: '18px',
-                      accentColor: '#A78BFA',
-                      cursor: 'pointer'
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontSize: '13px',
-                      color: 'rgba(255,255,255,0.8)',
-                      fontFamily: 'Inter, sans-serif'
-                    }}
-                  >
-                    记住我
-                  </span>
-                </label>
-                <button
-                  type="button"
-                  style={{
-                    background: 'transparent',
-                    border: 'none',
-                    fontSize: '13px',
-                    fontWeight: 500,
-                    color: '#A78BFA',
-                    fontFamily: 'Inter, sans-serif',
-                    cursor: 'pointer'
-                  }}
-                >
-                  忘记密码?
-                </button>
-              </div>
-
-              {/* Login Button */}
-              <button
-                type="submit"
-                disabled={loading}
+              />
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                placeholder="your@email.com"
+                required
                 style={{
                   width: '100%',
                   height: '48px',
-                  background: 'linear-gradient(135deg, #A78BFA 0%, #7C3AED 100%)',
-                  border: 'none',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
                   borderRadius: '12px',
-                  fontSize: '16px',
-                  fontWeight: 600,
+                  padding: '0 16px 0 48px',
+                  fontSize: '14px',
                   color: '#FFFFFF',
                   fontFamily: 'Inter, sans-serif',
-                  cursor: loading ? 'not-allowed' : 'pointer',
-                  boxShadow: '0 8px 24px rgba(124,58,237,0.4)',
-                  opacity: loading ? 0.7 : 1
+                  outline: 'none',
+                  transition: 'all 0.2s ease'
                 }}
-              >
-                登录
-              </button>
-            </form>
+                onFocus={(e) => {
+                  e.target.style.borderColor = 'rgba(255,255,255,0.3)'
+                  e.target.style.background = 'rgba(255,255,255,0.08)'
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = 'rgba(255,255,255,0.1)'
+                  e.target.style.background = 'rgba(255,255,255,0.05)'
+                }}
+              />
+            </div>
+          </div>
 
-            {/* Divider */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-              <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.13)' }} />
+          {/* Password Input */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <label
+              style={{
+                fontSize: '13px',
+                fontWeight: 500,
+                color: 'rgba(255,255,255,0.8)',
+                fontFamily: 'Inter, sans-serif'
+              }}
+            >
+              密码
+            </label>
+            <div style={{ position: 'relative' }}>
+              <ShieldCheck
+                style={{
+                  position: 'absolute',
+                  left: '16px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  width: '18px',
+                  height: '18px',
+                  color: 'rgba(255,255,255,0.4)'
+                }}
+              />
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="••••••••"
+                required
+                style={{
+                  width: '100%',
+                  height: '48px',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: '12px',
+                  padding: '0 16px 0 48px',
+                  fontSize: '14px',
+                  color: '#FFFFFF',
+                  fontFamily: 'Inter, sans-serif',
+                  outline: 'none',
+                  transition: 'all 0.2s ease'
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = 'rgba(255,255,255,0.3)'
+                  e.target.style.background = 'rgba(255,255,255,0.08)'
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = 'rgba(255,255,255,0.1)'
+                  e.target.style.background = 'rgba(255,255,255,0.05)'
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Options Row */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+              <input
+                type="checkbox"
+                name="remember"
+                checked={formData.remember}
+                onChange={handleChange}
+                style={{
+                  width: '18px',
+                  height: '18px',
+                  accentColor: '#FFFFFF',
+                  cursor: 'pointer'
+                }}
+              />
               <span
                 style={{
                   fontSize: '13px',
-                  color: 'rgba(255,255,255,0.4)',
+                  color: 'rgba(255,255,255,0.8)',
                   fontFamily: 'Inter, sans-serif'
                 }}
               >
-                或
+                记住我
               </span>
-              <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.13)' }} />
-            </div>
-
-            {/* Social Login */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px' }}>
-              <button
-                type="button"
-                style={{
-                  width: '56px',
-                  height: '56px',
-                  background: 'rgba(255,255,255,0.08)',
-                  border: '1px solid rgba(255,255,255,0.13)',
-                  borderRadius: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer'
-                }}
-              >
-                <Apple style={{ width: '24px', height: '24px', color: '#FFFFFF' }} />
-              </button>
-
-              <button
-                type="button"
-                style={{
-                  width: '56px',
-                  height: '56px',
-                  background: 'rgba(255,255,255,0.08)',
-                  border: '1px solid rgba(255,255,255,0.13)',
-                  borderRadius: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer'
-                }}
-              >
-                <Mail style={{ width: '24px', height: '24px', color: '#FFFFFF' }} />
-              </button>
-
-              <button
-                type="button"
-                style={{
-                  width: '56px',
-                  height: '56px',
-                  background: 'rgba(255,255,255,0.08)',
-                  border: '1px solid rgba(255,255,255,0.13)',
-                  borderRadius: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer'
-                }}
-              >
-                <Github style={{ width: '24px', height: '24px', color: '#FFFFFF' }} />
-              </button>
-            </div>
-
-            {/* Sign Up Link */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-              <span
-                style={{
-                  fontSize: '14px',
-                  color: 'rgba(255,255,255,0.6)',
-                  fontFamily: 'Inter, sans-serif'
-                }}
-              >
-                还没有账户?
-              </span>
-              <button
-                type="button"
-                onClick={() => navigate('/register')}
-                style={{
-                  background: 'transparent',
-                  border: 'none',
-                  fontSize: '14px',
-                  fontWeight: 600,
-                  color: '#A78BFA',
-                  fontFamily: 'Inter, sans-serif',
-                  cursor: 'pointer'
-                }}
-              >
-                注册
-              </button>
-            </div>
+            </label>
+            <button
+              type="button"
+              style={{
+                background: 'transparent',
+                border: 'none',
+                fontSize: '13px',
+                fontWeight: 500,
+                color: 'rgba(255,255,255,0.6)',
+                fontFamily: 'Inter, sans-serif',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#FFFFFF'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'rgba(255,255,255,0.6)'
+              }}
+            >
+              忘记密码?
+            </button>
           </div>
+
+          {/* Login Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            style={{
+              width: '100%',
+              height: '50px',
+              background: '#FFFFFF',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: '14px',
+              fontSize: '15px',
+              fontWeight: 600,
+              color: '#000000',
+              fontFamily: 'Inter, sans-serif',
+              cursor: loading ? 'not-allowed' : 'pointer',
+              opacity: loading ? 0.7 : 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              if (!loading) {
+                e.currentTarget.style.background = '#000000'
+                e.currentTarget.style.color = '#FFFFFF'
+                e.currentTarget.style.borderColor = '#FFFFFF'
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!loading) {
+                e.currentTarget.style.background = '#FFFFFF'
+                e.currentTarget.style.color = '#000000'
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'
+              }
+            }}
+          >
+            {loading ? (
+              <>
+                <div
+                  style={{
+                    width: '18px',
+                    height: '18px',
+                    border: '2px solid rgba(0,0,0,0.3)',
+                    borderTopColor: '#000000',
+                    borderRadius: '50%',
+                    animation: 'spin 0.8s linear infinite'
+                  }}
+                />
+                登录中...
+              </>
+            ) : (
+              '登录'
+            )}
+          </button>
+        </form>
+
+        {/* Divider */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.1)' }} />
+          <span
+            style={{
+              fontSize: '13px',
+              color: 'rgba(255,255,255,0.4)',
+              fontFamily: 'Inter, sans-serif'
+            }}
+          >
+            或
+          </span>
+          <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.1)' }} />
+        </div>
+
+        {/* Social Login */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px' }}>
+          {[
+            { icon: Apple, label: 'Apple' },
+            { icon: Mail, label: '邮箱' },
+            { icon: Github, label: 'Github' }
+          ].map(({ icon: Icon, label }) => (
+            <button
+              key={label}
+              type="button"
+              aria-label={label}
+              style={{
+                width: '52px',
+                height: '52px',
+                background: 'transparent',
+                border: '1px solid rgba(255,255,255,0.15)',
+                borderRadius: '14px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255,255,255,0.08)'
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent'
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'
+              }}
+            >
+              <Icon style={{ width: '22px', height: '22px', color: '#FFFFFF' }} />
+            </button>
+          ))}
+        </div>
+
+        {/* Sign Up Link */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+          <span
+            style={{
+              fontSize: '14px',
+              color: 'rgba(255,255,255,0.5)',
+              fontFamily: 'Inter, sans-serif'
+            }}
+          >
+            还没有账户?
+          </span>
+          <button
+            type="button"
+            onClick={() => navigate('/register')}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              fontSize: '14px',
+              fontWeight: 600,
+              color: '#FFFFFF',
+              fontFamily: 'Inter, sans-serif',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = 'rgba(255,255,255,0.7)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = '#FFFFFF'
+            }}
+          >
+            注册
+          </button>
         </div>
       </div>
+
+      {/* CSS Animations */}
+      <style>{`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </div>
   )
 }

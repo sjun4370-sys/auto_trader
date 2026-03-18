@@ -23,3 +23,89 @@ body {
 #root {
   width: 100%;
 }
+
+/* 侧边栏基础样式 - 由 Sidebar.tsx 内联样式和 <style> 标签管理 */
+
+/* Modal按钮样式覆盖 */
+.ant-modal-content {
+  background: rgba(20,20,20,0.98) !important;
+}
+
+/* 强制覆盖OK按钮样式 */
+button.ant-btn-primary,
+.ant-btn-primary {
+  background: rgba(20,20,20,0.9) !important;
+  border-color: rgba(255,255,255,0.2) !important;
+  color: rgba(255,255,255,0.9) !important;
+}
+
+button.ant-btn-primary:hover,
+.ant-btn-primary:hover {
+  background: rgba(40,40,40,0.9) !important;
+  border-color: rgba(255,255,255,0.3) !important;
+  color: #fff !important;
+}
+
+.ant-modal button.ant-btn-primary {
+  background: rgba(20,20,20,0.9) !important;
+  border-color: rgba(255,255,255,0.2) !important;
+  color: rgba(255,255,255,0.9) !important;
+}
+
+/* 账户表单输入框暗色样式 */
+.account-form .ant-input,
+.account-form .ant-input-affix-wrapper,
+.account-form .ant-input-password {
+  background: rgba(255,255,255,0.05) !important;
+  border-color: rgba(255,255,255,0.15) !important;
+  color: rgba(255,255,255,0.9) !important;
+}
+
+.account-form .ant-input::placeholder {
+  color: rgba(255,255,255,0.35) !important;
+}
+
+.account-form .ant-input-password input {
+  color: rgba(255,255,255,0.9) !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.account-form .ant-input-password input::placeholder {
+  color: rgba(255,255,255,0.35) !important;
+}
+
+.account-form .ant-input-password-icon,
+.account-form .ant-input-password-icon svg {
+  color: rgba(255,255,255,0.45) !important;
+  fill: rgba(255,255,255,0.45) !important;
+}
+
+/* 浏览器自动填充时保持暗色 */
+.account-form input:-webkit-autofill,
+.account-form input:-webkit-autofill:hover,
+.account-form input:-webkit-autofill:focus,
+.account-form input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px rgba(30, 30, 30, 0.9) inset !important;
+  -webkit-text-fill-color: rgba(255,255,255,0.9) !important;
+  caret-color: rgba(255,255,255,0.9) !important;
+}
+
+.account-form .ant-input-affix-wrapper input:-webkit-autofill,
+.account-form .ant-input-affix-wrapper input:-webkit-autofill:hover,
+.account-form .ant-input-affix-wrapper input:-webkit-autofill:focus,
+.account-form .ant-input-affix-wrapper input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px rgba(30, 30, 30, 0.9) inset !important;
+  -webkit-text-fill-color: rgba(255,255,255,0.9) !important;
+  caret-color: rgba(255,255,255,0.9) !important;
+  color: rgba(255,255,255,0.9) !important;
+}
+
+/* Switch开关暗色样式 */
+.account-form .ant-switch {
+  background: rgba(255,255,255,0.15) !important;
+}
+
+.account-form .ant-switch-checked {
+  background: rgba(255,255,255,0.25) !important;
+}
