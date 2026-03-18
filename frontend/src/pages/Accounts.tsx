@@ -75,7 +75,7 @@ function Accounts() {
         <Col xs={24} lg={10}>
           <Card title="新增账户">
             <Alert type="info" showIcon message="账户需配置 API Key 和 API Secret 才能用于交易" style={{ marginBottom: 16 }} />
-            <Form form={form} layout="vertical" onFinish={onFinish} initialValues={{ is_testnet: true }}>
+            <Form form={form} layout="vertical" onFinish={onFinish} initialValues={{ is_testnet: true }} className="account-form">
               <Form.Item name="exchange" label="Exchange" rules={[{ required: true, message: '请输入 exchange' }]}>
                 <Input placeholder="例如 binance" />
               </Form.Item>
