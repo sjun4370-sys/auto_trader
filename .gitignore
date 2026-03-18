@@ -40,3 +40,8 @@ npm-debug.log
 
 .claude/
 .claude-plugin/
+
+# Pencil
+pencil-prompts/
+
+dist/
