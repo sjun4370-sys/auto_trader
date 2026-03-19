@@ -9,15 +9,18 @@ function Strategies() {
   const [form] = Form.useForm()
 
   useEffect(() => {
-    loadData()
+    const controller = new AbortController()
+    loadData(controller.signal)
+    return () => controller.abort()
   }, [])
 
-  const loadData = async () => {
+  const loadData = async (signal?: AbortSignal) => {
     setLoading(true)
     try {
-      const res = await strategyApi.list()
+      const res = await strategyApi.list({ signal })
       setStrategies(res.data)
     } catch (error) {
+      if ((error as Error).name === 'AbortError') return
       console.error(error)
     } finally {
       setLoading(false)

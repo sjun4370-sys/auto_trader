@@ -16,8 +16,8 @@ export interface PositionData {
 }
 
 export const positionApi = {
-  list: (status?: string) =>
-    api.get<PositionData[]>('/positions', { params: { status } }),
+  list: (status?: string, config?: { signal?: AbortSignal }) =>
+    api.get<PositionData[]>('/positions', { params: { status }, ...config }),
   get: (id: number) => api.get<PositionData>(`/positions/${id}`),
   close: (id: number) => api.post(`/positions/close/${id}`),
 };

@@ -20,7 +20,8 @@ export interface KLine {
 }
 
 export const marketApi = {
-  getTickers: (symbols?: string) => api.get('/market/tickers', { params: { symbols } }),
+  getTickers: (config?: { signal?: AbortSignal; symbols?: string }) =>
+    api.get('/market/tickers', { params: { symbols: config?.symbols }, ...config }),
   getTicker: (symbol: string) => api.get<Ticker>(`/market/ticker/${symbol}`),
   getKline: (symbol: string, timeframe = '1h', limit = 100) =>
     api.get<KLine[]>(`/market/kline/${symbol}`, { params: { timeframe, limit } }),

@@ -14,7 +14,7 @@ export interface AccountData {
 }
 
 export const accountApi = {
-  list: () => api.get<AccountData[]>('/accounts'),
+  list: (config?: { signal?: AbortSignal }) => api.get<AccountData[]>('/accounts', config),
   get: (id: number) => api.get<AccountData>(`/accounts/${id}`),
   create: (data: Partial<AccountData>) => api.post('/accounts', data),
   update: (id: number, data: Partial<AccountData>) => api.patch(`/accounts/${id}`, data),

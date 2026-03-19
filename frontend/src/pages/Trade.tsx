@@ -9,7 +9,11 @@ function Trade() {
   const [accounts, setAccounts] = useState<AccountData[]>([])
 
   useEffect(() => {
-    accountApi.list().then(res => setAccounts(res.data))
+    const controller = new AbortController()
+    accountApi.list({ signal: controller.signal })
+      .then(res => setAccounts(res.data))
+      .catch(() => {})
+    return () => controller.abort()
   }, [])
 
   const tradableAccounts = useMemo(
