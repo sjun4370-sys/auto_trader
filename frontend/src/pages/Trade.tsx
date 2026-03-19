@@ -12,7 +12,9 @@ function Trade() {
     const controller = new AbortController()
     accountApi.list({ signal: controller.signal })
       .then(res => setAccounts(res.data))
-      .catch(() => {})
+      .catch((error) => {
+        if (error.name === 'AbortError') return
+      })
     return () => controller.abort()
   }, [])
 
