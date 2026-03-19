@@ -18,7 +18,7 @@ export interface StrategyCreate {
 }
 
 export const strategyApi = {
-  list: () => api.get<StrategyData[]>('/strategies'),
+  list: (config?: { signal?: AbortSignal }) => api.get<StrategyData[]>('/strategies', config),
   get: (id: number) => api.get<StrategyData>(`/strategies/${id}`),
   create: (data: StrategyCreate) => api.post<StrategyData>('/strategies', data),
   update: (id: number, data: StrategyCreate) =>

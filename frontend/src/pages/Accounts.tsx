@@ -8,12 +8,13 @@ function Accounts() {
   const [submitting, setSubmitting] = useState(false)
   const [form] = Form.useForm()
 
-  const loadAccounts = async () => {
+  const loadAccounts = async (signal?: AbortSignal) => {
     setLoading(true)
     try {
-      const res = await accountApi.list()
+      const res = await accountApi.list({ signal })
       setAccounts(res.data)
     } catch (error) {
+      if ((error as Error).name === 'AbortError') return
       console.error(error)
       message.error('加载账户列表失败')
     } finally {
@@ -22,7 +23,9 @@ function Accounts() {
   }
 
   useEffect(() => {
-    loadAccounts()
+    const controller = new AbortController()
+    loadAccounts(controller.signal)
+    return () => controller.abort()
   }, [])
 
   const onFinish = async (values: Partial<AccountData>) => {

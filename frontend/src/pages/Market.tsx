@@ -8,16 +8,19 @@ function Market() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    loadData()
+    const controller = new AbortController()
+    loadData(controller.signal)
+    return () => controller.abort()
   }, [])
 
-  const loadData = async () => {
+  const loadData = async (signal?: AbortSignal) => {
     setLoading(true)
     try {
-      const res = await marketApi.getTickers()
+      const res = await marketApi.getTickers({ signal })
       const data = Object.values(res.data as Record<string, Ticker>).filter((t: Ticker) => !(t as any).error)
       setTickers(data)
     } catch (error) {
+      if ((error as Error).name === 'AbortError') return
       console.error(error)
     } finally {
       setLoading(false)

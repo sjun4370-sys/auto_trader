@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Row, Col, Statistic } from 'antd'
-import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons'
+import { Row, Col } from 'antd'
+import { ArrowUpOutlined } from '@ant-design/icons'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 
 function Dashboard() {

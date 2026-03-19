@@ -31,6 +31,7 @@ logs/
 # Environment
 .env
 .env.local
+.env.*
 
 # Node
 node_modules/
@@ -41,6 +42,7 @@ npm-debug.log
 
 .claude/
 .claude-plugin/
+.mcp.json
 
 # Pencil
 pencil-prompts/
