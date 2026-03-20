@@ -214,29 +214,35 @@ async def create_conditional_order(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
-    """创建条件单"""
-    
+    """
+    创建条件单
+
+    TODO: 实现持久化存储条件单到数据库
+    TODO: 实现条件单触发检查定时任务
+    当前: 仅验证输入，不保存数据
+    """
+
     # 验证条件
     if data.condition_type == 'price_above' and data.condition_value <= 0:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="价格必须大于0"
         )
-    
+
     if data.condition_type == 'price_below' and data.condition_value <= 0:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="价格必须大于0"
         )
-    
+
     if data.condition_type == 'percentage_change':
         if data.condition_value < 0 or data.condition_value > 100:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="涨跌幅必须在0-100之间"
             )
-    
-    # 这里应该保存到数据库，简化处理直接返回
+
+    # TODO: 保存到数据库
     return ConditionalOrderResponse(
         id=1,
         user_id=current_user.id,
@@ -260,8 +266,13 @@ async def list_conditional_orders(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
-    """获取条件单列表"""
-    # 简化返回空列表
+    """
+    获取条件单列表
+
+    TODO: 从数据库查询实际保存的条件单
+    当前: 返回空列表
+    """
+    # TODO: 从数据库查询
     return []
 
 
@@ -271,5 +282,10 @@ async def cancel_conditional_order(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
-    """取消条件单"""
+    """
+    取消条件单
+
+    TODO: 从数据库删除实际保存的条件单
+    当前: 返回假成功响应
+    """
     return {"message": "条件单已取消"}

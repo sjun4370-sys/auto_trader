@@ -5,7 +5,7 @@ from app.models import User
 from app.api.deps import get_current_user
 from app.config import settings
 
-router = AI_router = APIRouter(prefix="/ai", tags=["AI"])
+router = APIRouter(prefix="/ai", tags=["AI"])
 
 
 class SignalRequest(BaseModel):
@@ -23,8 +23,12 @@ class SignalResponse(BaseModel):
 
 @router.post("/signal", response_model=SignalResponse)
 async def get_signal(request: SignalRequest):
-    """获取AI交易信号"""
-    # TODO: 实现AI信号生成
+    """
+    获取AI交易信号
+
+    TODO: 集成真实AI信号生成引擎（如机器学习模型）
+    当前: 基于简单规则的模拟实现
+    """
     # 简化版：基于简单规则
 
     signal = "hold"
@@ -50,8 +54,12 @@ async def get_signal(request: SignalRequest):
 
 @router.post("/chat")
 async def chat(message: str, current_user: User = Depends(get_current_user)):
-    """AI对话"""
-    # TODO: 实现AI对话
+    """
+    AI对话
+
+    TODO: 集成真实AI对话引擎（如OpenAI GPT、Claude等）
+    当前: 返回占位符响应
+    """
     return {
         "response": "AI对话功能开发中...",
     }
@@ -59,8 +67,12 @@ async def chat(message: str, current_user: User = Depends(get_current_user)):
 
 @router.get("/analysis/{symbol}")
 async def analyze_symbol(symbol: str, current_user: User = Depends(get_current_user)):
-    """AI分析"""
-    # TODO: 实现AI分析
+    """
+    AI分析指定交易对
+
+    TODO: 集成真实AI技术分析引擎
+    当前: 返回占位符响应
+    """
     return {
         "symbol": symbol,
         "analysis": "AI分析功能开发中...",

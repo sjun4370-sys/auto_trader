@@ -124,15 +124,27 @@ class ForceCloseManager:
                     side=close_side,
                     amount=position.quantity
                 )
-                
-                order.order_id = result.get('id')
-                order.status = 'filled'
-                order.filled_price = result.get('average') or position.current_price
-            
-            # 更新持仓状态
-            position.status = 'closed'
-            position.closed_at = datetime.utcnow()
-            
+
+                # 只有 exchange 返回有效 order_id 时才认为订单成功
+                if result and result.get('id'):
+                    order.order_id = result.get('id')
+                    order.status = 'filled'
+                    order.filled_price = result.get('average') or position.current_price
+                    # 更新持仓状态
+                    position.status = 'closed'
+                    position.closed_at = datetime.utcnow()
+                else:
+                    # 订单创建失败，不更新持仓状态
+                    order.status = 'failed'
+                    logger.error(f"强制平仓订单创建失败: {position.symbol}, result: {result}")
+                    # 回滚该订单
+                    await self.db.rollback()
+                    return False
+            else:
+                # 无 API key 时，标记为模拟平仓
+                position.status = 'closed'
+                position.closed_at = datetime.utcnow()
+
             # 计算盈亏
             if order.filled_price:
                 if position.side == 'long':
@@ -140,7 +152,7 @@ class ForceCloseManager:
                 else:
                     pnl = (position.entry_price - order.filled_price) * position.quantity
                 position.realized_pnl = pnl
-            
+
             # 记录交易日志
             log = TradeLog(
                 user_id=position.user_id,
@@ -152,9 +164,9 @@ class ForceCloseManager:
                 note=reason
             )
             self.db.add(log)
-            
+
             await self.db.commit()
-            
+
             logger.info(f"强制平仓成功: {position.symbol}, 原因: {reason}")
             return True
             

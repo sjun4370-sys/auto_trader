@@ -20,29 +20,6 @@ from app.api.deps import get_current_user
 router = APIRouter(prefix="/analytics", tags=["数据分析"])
 
 
-def calculate_pnl_from_orders(orders: list) -> float:
-    """从订单列表计算盈亏"""
-    # 按交易对分组计算
-    symbol_trades = defaultdict(lambda: {"buy": [], "sell": []})
-
-    for order in orders:
-        if order.status != "filled" or not order.filled_price:
-            continue
-        symbol_trades[order.symbol][order.side].append({
-            "quantity": order.quantity,
-            "price": order.filled_price,
-        })
-
-    total_pnl = 0.0
-    for symbol, trades in symbol_trades.items():
-        buy_volume = sum(t["quantity"] * t["price"] for t in trades["buy"])
-        sell_volume = sum(t["quantity"] * t["price"] for t in trades["sell"])
-        # 简化计算：卖 - 买
-        total_pnl += sell_volume - buy_volume
-
-    return total_pnl
-
-
 @router.get("", response_model=AnalyticsResponse)
 async def get_analytics(
     days: int = Query(30, ge=1, le=365, description="分析天数"),
@@ -207,26 +184,18 @@ async def get_analytics(
         ))
 
     # 构建趋势数据（按日期）
+    # 使用已获取的 orders，按日期分组
+    orders_by_date = defaultdict(list)
+    for order in orders:
+        if order.filled_at:
+            date_key = order.filled_at.strftime("%Y-%m-%d")
+            orders_by_date[date_key].append(order)
+
     trends_data = []
     # 获取最近N天的数据
     for i in range(days):
         date = (datetime.utcnow() - timedelta(days=i)).strftime("%Y-%m-%d")
-
-        # 获取该日期的订单
-        day_start = datetime.strptime(date, "%Y-%m-%d")
-        day_end = day_start + timedelta(days=1)
-
-        day_orders_result = await db.execute(
-            select(Order).where(
-                and_(
-                    Order.user_id == current_user.id,
-                    Order.status == "filled",
-                    Order.filled_at >= day_start,
-                    Order.filled_at < day_end,
-                )
-            )
-        )
-        day_orders = day_orders_result.scalars().all()
+        day_orders = orders_by_date.get(date, [])
 
         day_pnl = 0.0
         for order in day_orders:

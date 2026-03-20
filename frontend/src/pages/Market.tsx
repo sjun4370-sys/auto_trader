@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Table, Input } from 'antd'
-import { SearchOutlined } from '@ant-design/icons'
+import { Table } from 'antd'
 import { marketApi, Ticker } from '../api/market'
 
 function Market() {
@@ -43,11 +42,6 @@ function Market() {
   return (
     <div>
       <h1>行情</h1>
-      <Input
-        placeholder="搜索交易对"
-        prefix={<SearchOutlined />}
-        style={{ marginBottom: 16, width: 300 }}
-      />
       <Table
         columns={columns}
         dataSource={tickers}

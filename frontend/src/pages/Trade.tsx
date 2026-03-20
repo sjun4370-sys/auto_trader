@@ -13,7 +13,7 @@ function Trade() {
     accountApi.list({ signal: controller.signal })
       .then(res => setAccounts(res.data))
       .catch((error) => {
-        if (error.name === 'AbortError') return
+        if ((error as Error).name === 'AbortError') return
       })
     return () => controller.abort()
   }, [])

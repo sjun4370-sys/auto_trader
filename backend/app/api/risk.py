@@ -8,8 +8,12 @@ router = APIRouter(prefix="/risk", tags=["风控"])
 
 @router.get("/check")
 async def risk_check(current_user: User = Depends(get_current_user)):
-    """风控检查"""
-    # TODO: 实现风控检查逻辑
+    """
+    风控检查 - 检查用户当前风险状态
+
+    TODO: 实现真实风控检查逻辑（持仓、杠杆、亏损等）
+    当前: 返回静态配置值
+    """
     return {
         "status": "ok",
         "max_position_percent": 10.0,
