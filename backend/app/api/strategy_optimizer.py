@@ -1,4 +1,5 @@
 """策略优化器 API"""
+import statistics
 from typing import List, Optional, Dict, Any
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -171,7 +172,6 @@ async def analyze_strategy_performance(
 
     # 计算夏普比率（简化版）
     if len(trade_pnls) > 1:
-        import statistics
         returns = trade_pnls
         avg_return = statistics.mean(returns)
         std_return = statistics.stdev(returns) if len(returns) > 1 else 1.0

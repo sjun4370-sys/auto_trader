@@ -200,6 +200,9 @@ pip install -r requirements.txt
 
 # 启动开发服务器
 uvicorn app.main:app --reload
+
+# 运行测试
+pytest
 ```
 
 ### 前端命令
@@ -212,16 +215,43 @@ npm install
 # 启动开发服务器
 npm run dev
 
-# 构建生产版本
+# 类型检查和构建生产版本
 npm run build
 
 # 预览构建结果
 npm run preview
+
+# E2E 测试
+npm run test:e2e
+
+# E2E 测试（UI模式）
+npm run test:e2e:ui
 ```
+
+## 环境变量
+
+| 变量 | 必填 | 说明 | 示例 |
+|------|------|------|------|
+| `APP_NAME` | 否 | 应用名称 | `OKX Auto Trader` |
+| `APP_VERSION` | 否 | 版本号 | `1.0.0` |
+| `DEBUG` | 否 | 调试模式 | `true`, `false` |
+| `DATABASE_URL` | 是 | 数据库连接URL | `sqlite+aiosqlite:///./data/okx_trader.db` |
+| `SECRET_KEY` | 是 | JWT密钥 | `your-secret-key-change-in-production` |
+| `ALGORITHM` | 否 | JWT算法 | `HS256` |
+| `ACCESS_TOKEN_EXPIRE_MINUTES` | 否 | Token过期时间(分钟) | `1440` |
+| `DEFAULT_EXCHANGE` | 否 | 默认交易所 | `okx` |
+| `OKX_API_BASE_URL` | 否 | OKX API地址 | `https://www.okx.com` |
+| `MAX_POSITION_PERCENT` | 否 | 最大持仓比例 | `10.0` |
+| `DEFAULT_LEVERAGE` | 否 | 默认杠杆 | `3` |
+| `STOP_LOSS_PERCENT` | 否 | 止损比例 | `5.0` |
+| `MAX_DAILY_LOSS` | 否 | 日内最大亏损 | `15.0` |
+| `CIRCUIT_BREAKER_COUNT` | 否 | 熔断次数 | `3` |
+| `OPENAI_API_KEY` | 否 | OpenAI API密钥 | - |
+| `OPENAI_MODEL` | 否 | OpenAI模型 | `gpt-4` |
 
 ## API 文档
 
-服务启动后访问：
+后端服务启动后访问：
 
 - Swagger UI: http://localhost:8000/docs
 - ReDoc: http://localhost:8000/redoc

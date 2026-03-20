@@ -57,7 +57,7 @@ class SystemMonitor:
         if error_message:
             system_status.error_message = error_message
         if metadata:
-            system_status.metadata = metadata
+            system_status.extra_data = metadata
 
         system_status.last_heartbeat = datetime.utcnow()
         system_status.updated_at = datetime.utcnow()
@@ -292,7 +292,7 @@ class SystemMonitor:
                 "last_check": system_status.last_order_check.isoformat() if system_status.last_order_check else None,
             },
             "error": system_status.error_message,
-            "metadata": system_status.metadata,
+            "metadata": system_status.extra_data,
         }
 
     def _calculate_uptime(self, last_heartbeat: Optional[datetime]) -> Optional[float]:

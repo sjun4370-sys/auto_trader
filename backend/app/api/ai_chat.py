@@ -1,4 +1,5 @@
 """AI对话助手API"""
+import random
 from typing import List, Optional
 from datetime import datetime
 
@@ -178,7 +179,6 @@ async def generate_simple_response(user_message: str, chat_history: List[dict]) 
         "您可以询问具体的交易策略、市场行情分析或者风险管理建议。",
     ]
 
-    import random
     return random.choice(default_responses)
 
 

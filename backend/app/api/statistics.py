@@ -39,12 +39,9 @@ async def get_statistics(
     # 胜率
     win_rate = (winning_trades / total_trades * 100) if total_trades > 0 else 0
 
-    # 总盈亏
-    # TODO: 计算实际盈亏
+    # TODO: 计算实际盈亏数据（当前返回0占位）
     total_pnl = 0.0
     today_pnl = 0.0
-
-    # 平均盈利/亏损
     avg_profit = 0.0
     avg_loss = 0.0
 

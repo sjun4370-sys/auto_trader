@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Table, Button, Tag, Card, message, Space, Modal, Form, Input, Select, Popconfirm } from 'antd'
 import { strategyApi, StrategyData } from '../api/strategy'
+import '../styles/strategies.css'
 
 function Strategies() {
   const [strategies, setStrategies] = useState<StrategyData[]>([])
@@ -162,119 +163,6 @@ function Strategies() {
           </Form>
         </div>
       </Modal>
-
-      <style>{`
-        .strategy-modal .ant-modal-content {
-          background: rgba(22,22,22,0.96) !important;
-          border: 1px solid rgba(255,255,255,0.08) !important;
-          border-radius: 14px !important;
-          box-shadow: 0 20px 60px rgba(0,0,0,0.55), 0 0 1px rgba(255,255,255,0.05) inset !important;
-        }
-        .strategy-modal .ant-modal-close {
-          display: none !important;
-        }
-        .strategy-modal-inner {
-          padding: 0 !important;
-        }
-        .strategy-modal-header {
-          display: flex !important;
-          align-items: center !important;
-          gap: 10px !important;
-          padding: 18px 22px !important;
-          border-bottom: 1px solid rgba(255,255,255,0.06) !important;
-        }
-        .strategy-modal-icon {
-          width: 28px !important;
-          height: 28px !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          background: rgba(255,255,255,0.06) !important;
-          border: 1px solid rgba(255,255,255,0.1) !important;
-          border-radius: 7px !important;
-          color: rgba(255,255,255,0.6) !important;
-          font-size: 13px !important;
-        }
-        .strategy-modal-title {
-          font-size: 15px !important;
-          font-weight: 600 !important;
-          color: #fff !important;
-          margin: 0 !important;
-        }
-        .strategy-form {
-          padding: 16px 22px 20px !important;
-          margin: 0 !important;
-        }
-        .strategy-form .ant-form-item {
-          margin-bottom: 12px !important;
-        }
-        .strategy-form .ant-form-item:last-child {
-          margin-bottom: 0 !important;
-        }
-        .strategy-input {
-          height: 40px !important;
-          background: rgba(255,255,255,0.04) !important;
-          border: 1px solid rgba(255,255,255,0.1) !important;
-          border-radius: 8px !important;
-          color: #fff !important;
-          font-size: 14px !important;
-        }
-        .strategy-input:hover, .strategy-input:focus {
-          border-color: rgba(255,255,255,0.18) !important;
-        }
-        .strategy-input::placeholder {
-          color: rgba(255,255,255,0.3) !important;
-        }
-        .strategy-select .ant-select-selector {
-          height: 40px !important;
-          background: rgba(255,255,255,0.04) !important;
-          border: 1px solid rgba(255,255,255,0.1) !important;
-          border-radius: 8px !important;
-          font-size: 14px !important;
-        }
-        .strategy-select .ant-select-selector:hover {
-          border-color: rgba(255,255,255,0.18) !important;
-        }
-        .strategy-select .ant-select-placeholder {
-          color: rgba(255,255,255,0.3) !important;
-        }
-        .strategy-select .ant-select-arrow {
-          color: rgba(255,255,255,0.4) !important;
-        }
-        .strategy-modal-actions {
-          display: flex !important;
-          gap: 10px !important;
-          margin-top: 16px !important;
-        }
-        .btn-cancel {
-          flex: 1 !important;
-          height: 38px !important;
-          background: transparent !important;
-          border: 1px solid rgba(255,255,255,0.1) !important;
-          border-radius: 8px !important;
-          color: rgba(255,255,255,0.65) !important;
-          font-size: 14px !important;
-          cursor: pointer !important;
-        }
-        .btn-cancel:hover {
-          border-color: rgba(255,255,255,0.18) !important;
-          color: #fff !important;
-        }
-        .btn-create {
-          flex: 1 !important;
-          height: 38px !important;
-          background: #fff !important;
-          border: none !important;
-          border-radius: 8px !important;
-          color: #000 !important;
-          font-size: 14px !important;
-          font-weight: 600 !important;
-          cursor: pointer !important;
-        }
-        .btn-create:hover {
-          background: rgba(255,255,255,0.92) !important;
-        }
-      `}</style>
     </div>
   )
 }

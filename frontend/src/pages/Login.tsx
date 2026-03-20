@@ -13,8 +13,7 @@ function Login() {
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     username: '',
-    password: '',
-    remember: false
+    password: ''
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -234,29 +233,7 @@ function Login() {
 
           {/* Options Row */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-              <input
-                type="checkbox"
-                name="remember"
-                checked={formData.remember}
-                onChange={handleChange}
-                style={{
-                  width: '18px',
-                  height: '18px',
-                  accentColor: '#FFFFFF',
-                  cursor: 'pointer'
-                }}
-              />
-              <span
-                style={{
-                  fontSize: '13px',
-                  color: 'rgba(255,255,255,0.8)',
-                  fontFamily: 'Inter, sans-serif'
-                }}
-              >
-                记住我
-              </span>
-            </label>
+            <div />
             <button
               type="button"
               style={{

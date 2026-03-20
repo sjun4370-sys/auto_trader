@@ -4,6 +4,7 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, desc
+import ccxt
 
 from app.database import get_db
 from app.models import User, StrategyRecommendation
@@ -13,9 +14,18 @@ from app.schemas import (
     MarketAnalysis,
 )
 from app.api.deps import get_current_user
-from app.api.market import get_exchange
 
 router = APIRouter(prefix="/strategy-recommendation", tags=["策略推荐"])
+
+
+def create_okx_exchange() -> ccxt.okx:
+    """创建配置好的OKX交易所实例"""
+    exchange = ccxt.okx({
+        'enableRateLimit': True,
+        'options': {'defaultType': 'swap'}
+    })
+    exchange.timeout = 10000
+    return exchange
 
 
 def calculate_volatility(closes: List[float]) -> float:
@@ -197,14 +207,8 @@ async def analyze_market(
     db: AsyncSession = Depends(get_db),
 ):
     """分析市场并推荐策略"""
-    import ccxt
-    
-    # 使用OKX API
-    exchange = ccxt.okx({
-        'enableRateLimit': True,
-        'timeout': 10000,  # 10秒超时
-    })
-    
+    exchange = create_okx_exchange()
+
     # 获取K线数据
     ohlcv = exchange.fetch_ohlcv(symbol, timeframe, limit=50)
 
@@ -256,7 +260,7 @@ async def analyze_and_recommend(
     db: AsyncSession = Depends(get_db),
 ):
     """分析市场并返回策略推荐（同时保存推荐记录）"""
-    exchange = get_exchange()
+    exchange = create_okx_exchange()
 
     # 获取K线数据
     try:
